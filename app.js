@@ -1,10 +1,14 @@
 /* Relizamos este prooceso ↓↓↓ ya que "__dirname" no esta disponible en ESM. Lo que se hace es usar el modulo "path" de node
-y la funcion "fileURLToPath" del modulo "url" para transformat el url del archivo en el cual estamos trabajando a un path
+y la funcion "fileURLToPath" del modulo "url" para transformar el url del archivo en el cual estamos trabajando a un path
 en forma de string. */
 import path from 'path';
 import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);//Hasta aqui conseguimos todo el path del archivo, incluyendo /app.js
-const __dirname = path.dirname(__filename); //"path.dirname" ignora el ultimo directorio, es decir /app.js
+//"import.meta" es un objeto que contiene la ruta del archivo sobre el que estamos trabajando, esta ruta puede estar
+//en dos formatos "import.meta.url" formato URL  o "import.meta.env" en vbles de entorno
+const __filename = fileURLToPath(import.meta.url);//La ruta url no es lo mismo que la ruta del archivo local, con la func.
+//"fileURLToPath()" convertimos a ruta de archivo local.
+const __dirname = path.dirname(__filename); //"path.dirname" nos da la ruta del lugar donde esta ubicado el archivo
+//al cual apuntamos en __filename, en este caso app.js
 
 /* Con express creamos rapidamente un servidor, sin tener que configurar cada parametro del mismo*/
 import express from 'express';
@@ -103,5 +107,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, ()=>{
-    console.log(`App de ejemplo en el puerto http//:localhost${port} ${__dirname}`);
+    console.log(`App de ejemplo en el puerto http//:localhost${port}`);
 })
